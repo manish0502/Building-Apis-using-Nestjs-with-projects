@@ -8,6 +8,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { feedPost } from '../models/post.interface';
+import { Observable } from 'rxjs';
+
 import { CreatePostDto } from '../dto/post.dto';
 import { FeedService } from './feed.service';
 

@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+// import * as morgan from 'morgan';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,6 +10,8 @@ async function bootstrap() {
     res.removeHeader('date');
     next();
   });
+  //app.use(morgan('tiny'));
+
   await app.listen(3000);
  //console.log(`Application is running on: ${await app.getUrl()}`);
 }
