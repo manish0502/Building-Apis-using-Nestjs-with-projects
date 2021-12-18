@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable } from 'rxjs';
 import { feedPostentity } from '../models/post.entity'
 import { CreatePostDto } from '../dto/post.dto';
-import { feedPost} from '../models/post.interface'
 
 @Injectable()
 export class FeedService {
@@ -24,4 +23,39 @@ export class FeedService {
     //   return from(this.repo.save(result));
     // }
    
+
+    findAll(){
+      return this.repo.find()
+    }
+
+    findOne(id: number) {
+      if (!id) {
+        return null;
+      }
+      return this.repo.findOne(id);
+    }
+
+
+    // updatePost(id: number, feedupdatePost: CreatePostDto){
+    //   return this.repo.update(id, feedupdatePost);
+    // }
+
+
+    async update(id: number, attrs: Partial<feedPostentity>) {
+      const user = await this.findOne(id);
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      Object.assign(user, attrs);
+      return this.repo.save(user);
+    }
+
+
+    async remove(id: number) {
+      const user = await this.findOne(id);
+      if (!user) {
+        throw new NotFoundException('user not found');
+      }
+      return this.repo.remove(user);
+    }
 }
