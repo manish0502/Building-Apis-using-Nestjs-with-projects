@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { from, Observable } from 'rxjs';
 import { feedPostentity } from '../models/post.entity'
 import { CreatePostDto } from '../dto/post.dto';
+import { feedPost } from '../models/post.interface';
 
 @Injectable()
 export class FeedService {
@@ -28,7 +29,7 @@ export class FeedService {
       return this.repo.find()
     }
 
-    findOne(id: number) {
+    findOne(id: number):Promise<feedPostentity> {
       if (!id) {
         return null;
       }
@@ -51,11 +52,22 @@ export class FeedService {
     }
 
 
-    async remove(id: number) {
+    async remove(id: number):Promise<feedPostentity> {
       const user = await this.findOne(id);
       if (!user) {
         throw new NotFoundException('user not found');
       }
       return this.repo.remove(user);
     }
+
+
+    //Applying pagination from services
+
+    findPosts(take:number=10 , skip:number= 0){
+       return  from(this.repo.findAndCount({ take , skip})
+       .then(([posts])=>{
+         return <any[]>posts
+       }))
+        
+    } 
 }

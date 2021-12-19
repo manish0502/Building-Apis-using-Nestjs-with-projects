@@ -5,6 +5,7 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
+    CreateDateColumn,
   } from 'typeorm';
   
   
@@ -18,10 +19,12 @@ import {
     @Column({ default:''})
     body: string;
   
-    @Column({ type :'timestamp' , default:()=> 'CURRENT_TIMESTAMP' })
+    // @Column({ type :'timestamp' , default:()=> 'CURRENT_TIMESTAMP' })
+    // createdAt: Date;
+  
+    
+    @CreateDateColumn()
     createdAt: Date;
-  
-  
   
   
   @AfterInsert()
